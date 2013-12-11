@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.0/jasmine.css">
+    <script type="text/javascript" src="lib/jasmine-1.3.0/jasmine.js"></script>
+    <script type="text/javascript" src="lib/jasmine-1.3.0/jasmine-html.js"></script>
+
+    <script src="equerry.js"></script>
+    <script>
+    define('Squire', function () {
+        return function () {
+            return {
+                require: function (dependencies, callback) {
+                    
+                }
+            };
+        };
+    });
+
+    describe("Squire", function() {
+        var Squire;
+
+        beforeEach(function() {
+            requirejs._reset();
+            Squire = require("Squire");
+        });
+
+        it("should be a function", function () {
+            expect(typeof Squire).toBe("function");
+        });
+
+        it("should expose a 'require' function", function () {
+            define("utilities/Calculator", function () {
+                return "foobar";
+            });
+
+            var injector = new Squire();
+            injector.require(['utilities/Calculator'], function (Calculator) {
+                expect(Calculator).toBe("foobar");
+            },
+            function(err) {
+
+            });
+        });
+
+    });
+    </script>
+
+    <script type="text/javascript">
+    (function() {
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.updateInterval = 1000;
+
+        var htmlReporter = new jasmine.HtmlReporter();
+
+        jasmineEnv.addReporter(htmlReporter);
+        jasmineEnv.specFilter = function(spec) {
+            return htmlReporter.specFilter(spec);
+        };
+
+        window.onload = function () { jasmineEnv.execute(); };
+    })();
+    </script>
+</head>
+<body>
+
+</body>
+</html>
